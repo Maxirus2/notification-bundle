@@ -337,7 +337,7 @@ class NotificationManager
             ->setLink($link);
 
         $event = new NotificationEvent($notification);
-        $this->dispatcher->dispatch(MgiletNotificationEvents::CREATED, $event);
+        $this->dispatcher->dispatch($event);
 
         return $notification;
     }
@@ -364,7 +364,7 @@ class NotificationManager
             $notification->addNotifiableNotification($notifiableNotification);
 
             $event = new NotificationEvent($notification, $notifiable);
-            $this->dispatcher->dispatch(MgiletNotificationEvents::ASSIGNED, $event);
+            $this->dispatcher->dispatch($event);
         }
 
         $this->flush($flush);
@@ -396,7 +396,7 @@ class NotificationManager
                 ->execute();
 
             $event = new NotificationEvent($notification, $notifiable);
-            $this->dispatcher->dispatch(MgiletNotificationEvents::REMOVED, $event);
+            $this->dispatcher->dispatch($event);
         }
 
         $this->flush($flush);
@@ -416,7 +416,7 @@ class NotificationManager
         $this->flush($flush);
 
         $event = new NotificationEvent($notification);
-        $this->dispatcher->dispatch(MgiletNotificationEvents::DELETED, $event);
+        $this->dispatcher->dispatch($event);
     }
 
     /**
@@ -434,7 +434,7 @@ class NotificationManager
         if ($nn) {
             $nn->setSeen(true);
             $event = new NotificationEvent($notification, $notifiable);
-            $this->dispatcher->dispatch(MgiletNotificationEvents::SEEN, $event);
+            $this->dispatcher->dispatch($event);
             $this->flush($flush);
         } else {
             throw new EntityNotFoundException('The link between the notifiable and the notification has not been found');
@@ -456,7 +456,7 @@ class NotificationManager
         if ($nn) {
             $nn->setSeen(false);
             $event = new NotificationEvent($notification, $notifiable);
-            $this->dispatcher->dispatch(MgiletNotificationEvents::UNSEEN, $event);
+            $this->dispatcher->dispatch($event);
             $this->flush($flush);
         } else {
             throw new EntityNotFoundException('The link between the notifiable and the notification has not been found');
@@ -480,7 +480,7 @@ class NotificationManager
         foreach ($nns as $nn) {
             $nn->setSeen(true);
             $event = new NotificationEvent($nn->getNotification(), $notifiable);
-            $this->dispatcher->dispatch(MgiletNotificationEvents::SEEN, $event);
+            $this->dispatcher->dispatch($event);
         }
         $this->flush($flush);
     }
@@ -572,7 +572,7 @@ class NotificationManager
         $this->flush($flush);
 
         $event = new NotificationEvent($notification);
-        $this->dispatcher->dispatch(MgiletNotificationEvents::MODIFIED, $event);
+        $this->dispatcher->dispatch($event);
 
         return $notification;
     }
@@ -591,7 +591,7 @@ class NotificationManager
         $this->flush($flush);
 
         $event = new NotificationEvent($notification);
-        $this->dispatcher->dispatch(MgiletNotificationEvents::MODIFIED, $event);
+        $this->dispatcher->dispatch($event);
 
         return $notification;
     }
@@ -610,7 +610,7 @@ class NotificationManager
         $this->flush($flush);
 
         $event = new NotificationEvent($notification);
-        $this->dispatcher->dispatch(MgiletNotificationEvents::MODIFIED, $event);
+        $this->dispatcher->dispatch($event);
 
         return $notification;
     }
@@ -629,7 +629,7 @@ class NotificationManager
         $this->flush($flush);
 
         $event = new NotificationEvent($notification);
-        $this->dispatcher->dispatch(MgiletNotificationEvents::MODIFIED, $event);
+        $this->dispatcher->dispatch($event);
 
         return $notification;
     }
