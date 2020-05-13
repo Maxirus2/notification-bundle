@@ -3,6 +3,7 @@
 namespace Mgilet\NotificationBundle\Controller;
 
 use Mgilet\NotificationBundle\Entity\Notification;
+use Mgilet\NotificationBundle\Manager\NotificationManager;
 use Mgilet\NotificationBundle\NotifiableInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,9 +48,8 @@ class NotificationController extends AbstractController
      * @throws \Doctrine\ORM\EntityNotFoundException
      * @throws \LogicException
      */
-    public function markAsSeenAction($notifiable, $notification)
+    public function markAsSeenAction(NotificationManager $manager,$notifiable, $notification)
     {
-        $manager = $this->get('mgilet.notification');
         $manager->markAsSeen(
             $manager->getNotifiableInterface($manager->getNotifiableEntityById($notifiable)),
             $manager->getNotification($notification),
@@ -74,9 +74,8 @@ class NotificationController extends AbstractController
      * @throws \Doctrine\ORM\EntityNotFoundException
      * @throws \LogicException
      */
-    public function markAsUnSeenAction($notifiable, $notification)
+    public function markAsUnSeenAction(NotificationManager $manager,$notifiable, $notification)
     {
-        $manager = $this->get('mgilet.notification');
         $manager->markAsUnseen(
             $manager->getNotifiableInterface($manager->getNotifiableEntityById($notifiable)),
             $manager->getNotification($notification),
@@ -97,9 +96,8 @@ class NotificationController extends AbstractController
      * @throws \InvalidArgumentException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function markAllAsSeenAction($notifiable)
+    public function markAllAsSeenAction(NotificationManager $manager, $notifiable)
     {
-        $manager = $this->get('mgilet.notification');
         $manager->markAllAsSeen(
             $manager->getNotifiableInterface($manager->getNotifiableEntityById($notifiable)),
             true
