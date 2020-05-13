@@ -150,7 +150,7 @@ class NotificationExtension extends AbstractExtension
      * @throws \Doctrine\ORM\ORMInvalidArgumentException
      * @throws \InvalidArgumentException
      */
-    public function generatePath($route, $notifiable, NotificationInterface $notification = null)
+    public function generatePath($route, $notifiable, NotificationInterface $notification = null, $userId = false)
     {
         if ($notifiable instanceof NotifiableInterface) {
             $notifiableId = $this->notificationManager->getNotifiableEntity($notifiable)->getId();
@@ -164,7 +164,8 @@ class NotificationExtension extends AbstractExtension
             case 'notification_list':
                 return $this->router->generate(
                     'notification_list',
-                    array('notifiable' => $notifiableId)
+                    array('notifiable' => $notifiableId,
+                        'idUser' => $userId)
                 );
                 break;
             case 'notification_mark_as_seen':
@@ -176,7 +177,8 @@ class NotificationExtension extends AbstractExtension
                     'notification_mark_as_seen',
                     array(
                         'notifiable' => $notifiableId,
-                        'notification' => $notification->getId()
+                        'notification' => $notification->getId(),
+                        'idUser' => $userId
                     )
                 );
                 break;
@@ -189,12 +191,13 @@ class NotificationExtension extends AbstractExtension
                     'notification_mark_as_unseen',
                     array(
                         'notifiable' => $notifiableId,
-                        'notification' => $notification->getId()
+                        'notification' => $notification->getId(),
+                        'idUser' => $userId
                     )
                 );
                 break;
             case 'notification_mark_all_as_seen':
-                return $this->router->generate('notification_mark_all_as_seen', array('notifiable' => $notifiableId));
+                return $this->router->generate('notification_mark_all_as_seen', array('notifiable' => $notifiableId, 'idUser' => $userId));
                 break;
             default:
                 return new \InvalidArgumentException('You must provide a valid route path. Paths availables : notification_list, notification_mark_as_seen, notification_mark_as_unseen, notification_mark_all_as_seen');
